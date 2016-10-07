@@ -1,0 +1,12 @@
+h1{
+	color: black;
+	font-weight: bold;
+}
+
+.tweet{
+	color: white;
+	font-size: 150%;
+	border: 2px solid pink;
+	border-radius: 5px;
+	background-color: gray;
+}

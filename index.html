@@ -1,0 +1,76 @@
+<head>
+	<script src = "https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<!--<script src = "https://www.gstatic.com/firebasejs/client/3.4.1/firebase.js"></script>-->
+	<script src = "https://www.gstatic.com/firebasejs/3.4.1/firebase.js"></script>
+
+	<script >
+	  // Initialize Firebase
+  	var config = {
+    	apiKey: "AIzaSyBDgHk3_m-vqyUbTGIqgCZ8qAb-CoY5ID4",
+	    authDomain: "luminous-torch-6850.firebaseapp.com",
+	    databaseURL: "https://luminous-torch-6850.firebaseio.com",
+	    storageBucket: "luminous-torch-6850.appspot.com",
+	    messagingSenderId: "825487892602"
+  	};
+  	firebase.initializeApp(config);
+
+  	var database = firebase.database();
+  	var chattyref = database.ref("chatty/");
+  	
+  	//write some data
+  	function addTweet(){
+	  	console.log("testing....");
+	  	var m = document.getElementById("message").value;
+	  	var n = document.getElementById("Name").value;
+	  	console.log(n , m)
+	  	chattyref.push({
+	  		message: m,
+	  		sender: n
+	  	})
+
+	  }
+  //	var key = chattyref.push.key(); // makes a new key
+
+  	function resetDB(){
+	  	database.ref('chatty/').set({ // replace whatever was there
+	  		user: 'hiiiiiiii',
+	  		value: 'test1',
+	  	});
+	  	console.log("done");
+	}
+  	//test connection
+
+  	//read some data
+  	chattyref.on('child_added',function(data){
+  		var Tweet = data.val();
+  		console.log("got: ", data.val());
+  		console.log(data.val().message);
+  		console.log(data.val().sender);
+
+  		$("#thetweets").append("<p class = \"tweet\"> User: " + data.val().sender+  "<br></br>Tweet: " +data.val().message +"</p>")
+  		//(postElement,data.key, data.val().text)}
+  	});
+
+  	//connect it to the body of web page
+  	$(document).ready(function(){
+  		$("#sendmessage").click(function(){
+  			console.log("I was clicked");
+  			addTweet();
+  		});
+  	});
+	</script>
+	<link rel = "stylesheet" type = "text/css" href = "styles.css"/>
+
+</head> 
+<body background="back.jpg">
+	<div style = "text-align: center; font-weight: bold;">
+		<h1> Twitter Clone </h1>
+		Name:
+		<input type="text" id = "Name"> </input>
+		Tweet:
+		<input type="text" id = "message"> </input>
+		<button id="sendmessage"> Send </button>
+		<div id="thetweets"></div>
+	</div>
+
+</body>
